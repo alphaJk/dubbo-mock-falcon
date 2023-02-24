@@ -1,0 +1,1 @@
+mockServerFilter=com.jk.mock.config.filter.dubbo.MockServerFilter

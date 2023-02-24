@@ -1,0 +1,81 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+server:
+  port: 8011
+  undertow:
+    io-threads: 10
+    worker-threads: 40
+
+spring:
+  application:
+    name: falcon
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: stg123456
+    url: jdbc:mysql://47.96.186.129:3306/dubbo_mock?allowPublicKeyRetrieval=true&useSSL=false&useUnicode=true&characterEncoding=UTF-8
+    hikari:
+      max-lifetime: 1800000
+      maximum-pool-size: 50
+      minimum-idle: 10
+  main:
+#    allow-circular-references: true
+    allow-bean-definition-overriding: true
+
+dubbo:
+  application:
+    id: falcon-server
+    name: falcon-server
+    register-mode: all
+    metadata-service-port: 20880
+  service-discovery:
+    migration: APPLICATION_FIRST
+  consumer:
+    client: netty
+    filter: prometheusFilter,sentinel.dubbo.consumer.filter
+  protocol:
+    id: dubbo
+    name: dubbo
+    port: 20880
+    threadname: dubbo-export
+    threadpool: fixed
+    threads: 200
+    queues: 100
+#  provider:
+#    filter: dubboExceptionFilter,prometheusFilter,sentinel.dubbo.provider.filter,selfValidationFilter,flowInfo
+  registries:
+    nacos:
+      address: nacos://172.26.13.91:8848
+      id: nacos-registry
+  scan:
+    basePackages: com.jk
+  utopia:
+    service:
+      serviceinfo:
+        group: canary
+        version: 1.0.0
+  security:
+    serialize:
+      openCheckClass: false
+  registry:
+    use-as-metadata-center: false
+    use-as-config-center: false
+
+# MybatisPlus
+mybatis-plus:
+  global-config:
+    db-config:
+      column-underline: true # 驼峰形式
+      logic-delete-field: isDeleted # 全局逻辑删除的实体字段名
+      logic-delete-value: 1 # 逻辑已删除值(默认为 1)
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
+      db-type: mysql
+#      id-type: assign_id # id策略
+#      table-prefix: t_ # 配置表的默认前缀
+  mapper-locations: classpath*:/mapper/**Mapper.xml # mapper 文件位置
+#  type-aliases-package: com.zhifou.entity # 实体类别名
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 日志：打印sql 语句
