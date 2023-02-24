@@ -32,7 +32,11 @@ public class UpdateReq implements Serializable {
     @NotBlank(message = "parameterTypes is empty")
     private String parameterTypes;
 
-    @NotBlank(message = "response is empty")
     private String response;
+
+    private String dubboGroup;
+
+    private String version;
+
 
 }

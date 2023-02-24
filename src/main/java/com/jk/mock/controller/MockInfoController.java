@@ -58,12 +58,50 @@ public class MockInfoController {
     @PostMapping("/updateResponse")
     public ResponseModel updateResponse(@RequestBody UpdateReq req){
         ResponseModel responseModel = new ResponseModel();
-        boolean success = mockInfoDao.updateResponse(req.getInterfaceName(),req.getFunctionName(),req.getParameterTypes(),req.getResponse());
-        if (!success){
-            responseModel.setCode(ErrorCode.ERROR_CODE_30225.getCode());
-            responseModel.setMsg(ErrorCode.ERROR_CODE_30225.getMsg());
+        try {
+            boolean success = mockInfoDao.updateResponse(req.getInterfaceName(),req.getFunctionName(),req.getParameterTypes(),req.getResponse());
+            if (!success){
+                responseModel.setCode(ErrorCode.ERROR_CODE_30225.getCode());
+                responseModel.setMsg(ErrorCode.ERROR_CODE_30225.getMsg());
+            }
+            return responseModel;
+        }catch (Exception e){
+            log.error("update Response mock info error: {}, {}", e.getMessage(), e);
+            throw new BaseException(ErrorCode.ERROR_CODE_30224.getCode(), e.getMessage());
         }
-        return responseModel;
+
+    }
+
+    @PostMapping("/updateDubboGroup")
+    public ResponseModel updateDubboGroup(@RequestBody UpdateReq req){
+        ResponseModel responseModel = new ResponseModel();
+        try {
+            boolean success = mockInfoDao.updateDubboGroup(req.getInterfaceName(),req.getFunctionName(),req.getParameterTypes(),req.getDubboGroup());
+            if (!success){
+                responseModel.setCode(ErrorCode.ERROR_CODE_30225.getCode());
+                responseModel.setMsg(ErrorCode.ERROR_CODE_30225.getMsg());
+            }
+            return responseModel;
+        }catch (Exception e){
+            log.error("update group mock info error: {}, {}", e.getMessage(), e);
+            throw new BaseException(ErrorCode.ERROR_CODE_30224.getCode(), e.getMessage());
+        }
+    }
+
+    @PostMapping("/updateVersion")
+    public ResponseModel updateVersion(@RequestBody UpdateReq req){
+        ResponseModel responseModel = new ResponseModel();
+        try {
+            boolean success = mockInfoDao.updateVersion(req.getInterfaceName(),req.getFunctionName(),req.getParameterTypes(),req.getVersion());
+            if (!success){
+                responseModel.setCode(ErrorCode.ERROR_CODE_30225.getCode());
+                responseModel.setMsg(ErrorCode.ERROR_CODE_30225.getMsg());
+            }
+            return responseModel;
+        }catch (Exception e){
+            log.error("update group mock info error: {}, {}", e.getMessage(), e);
+            throw new BaseException(ErrorCode.ERROR_CODE_30224.getCode(), e.getMessage());
+        }
     }
 
     @PostMapping("/saveOne")
