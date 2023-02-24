@@ -4,7 +4,7 @@ management:
       exposure:
         include: health,info,prometheus
 server:
-  port: 8011
+  port: 8020
   undertow:
     io-threads: 10
     worker-threads: 40
@@ -35,7 +35,7 @@ dubbo:
     migration: APPLICATION_FIRST
   consumer:
     client: netty
-    filter: prometheusFilter,sentinel.dubbo.consumer.filter
+#    filter: prometheusFilter,sentinel.dubbo.consumer.filter
   protocol:
     id: dubbo
     name: dubbo
@@ -52,11 +52,11 @@ dubbo:
       id: nacos-registry
   scan:
     basePackages: com.jk
-  utopia:
-    service:
-      serviceinfo:
-        group: canary
-        version: 1.0.0
+#  utopia:
+#    service:
+#      serviceinfo:
+#        group: canary
+#        version: 1.0.0
   security:
     serialize:
       openCheckClass: false
