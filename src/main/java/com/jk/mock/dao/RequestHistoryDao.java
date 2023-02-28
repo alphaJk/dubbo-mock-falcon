@@ -24,7 +24,7 @@ public class RequestHistoryDao {
     IRequestHistoryService requestHistoryService;
 
     //根据group，获取最后一次请求数据
-    public RequestHistory getLasetOne(String group){
+    public RequestHistory getLatestOne(String group){
         QueryWrapper<RequestHistory> wrapper = new QueryWrapper<>();
         wrapper.eq("group_name",group);
         wrapper.orderByDesc("create_time");
@@ -32,13 +32,18 @@ public class RequestHistoryDao {
         return requestHistoryService.getOne(wrapper);
     }
 
-
-    public boolean saveOneRequestInfo(String requestId,String paramType,String paramValue,String groupName){
+    public void saveOneRequestInfo(String requestId,String paramType,String paramValue,String groupName){
         RequestHistory entity = new RequestHistory();
         entity.setRequestId(requestId);
         entity.setParamType(paramType);
         entity.setParamValue(paramValue);
         entity.setGroupName(groupName);
-        return requestHistoryService.save(entity);
+        requestHistoryService.save(entity);
+    }
+
+    public List<RequestHistory> getReqInfoByReqId(String reqId){
+        QueryWrapper<RequestHistory> wrapper = new QueryWrapper<>();
+        wrapper.eq("request_id",reqId);
+        return requestHistoryService.list(wrapper);
     }
 }

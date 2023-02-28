@@ -1,13 +1,13 @@
 package com.jk.mock;
 
 import com.alibaba.fastjson2.JSONObject;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.jk.mock.dao.RequestHistoryDao;
 import com.jk.mock.entity.RequestHistory;
 import com.jk.mock.mapper.MockInfoMapper;
 import com.jk.mock.entity.MockInfo;
 import com.jk.mock.service.IMockInfoService;
+import javafx.scene.chart.Chart;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @SpringBootTest
@@ -67,8 +68,12 @@ class DubboMockFalconApplicationTests {
 
 	@Test
 	void test4(){
-		RequestHistory requestHistory = requestHistoryDao.getLasetOne("core_data");
+		RequestHistory requestHistory = requestHistoryDao.getLatestOne("core_data");
 		System.out.println(requestHistory.getRequestId());
 	}
 
+	@Test
+	void test5(){
+		List<RequestHistory> list = requestHistoryDao.getReqInfoByReqId("21ba8c20cb2541dca618ef6c294bed99");
+	}
 }

@@ -39,7 +39,7 @@ public class GenericServiceInterfaceImpl implements GenericService {
         String interfaceName = Util.getUrlInterface();
         log.info("dubbo request interfaceName:{}",interfaceName);
         if (MapUtils.isEmpty(dubboMockProperties.getInvocations())) {
-            throw new ServiceException("{\"code\":60951,\"msg\":\"no provider\"}\n");
+            throw new BaseException(ErrorCode.ERROR_CODE_60951.getCode(),ErrorCode.ERROR_CODE_60951.getMsg());
         }
         List<String> parameterTypesList = Arrays.asList(parameterTypes);
         String params = String.join(",",parameterTypesList);
@@ -49,13 +49,13 @@ public class GenericServiceInterfaceImpl implements GenericService {
         MockInvocation mockInvocation = dubboMockProperties.getInvocations().get(key);
         // 方法存不存在
         if (Objects.isNull(mockInvocation)) {
-            throw new ServiceException("{\"code\":60951,\"msg\":\"no provider\"}\n");
+            throw new BaseException(ErrorCode.ERROR_CODE_60951.getCode(),ErrorCode.ERROR_CODE_60951.getMsg());
         }
 
         log.info(params);
         List<Object> req = new ArrayList<>(Arrays.asList(args));
         if (parameterTypes.length != args.length){
-            throw new ServiceException("{\"code\":60952,\"msg\":\"miss params\"}\n");
+            throw new BaseException(ErrorCode.ERROR_CODE_60952.getCode(),ErrorCode.ERROR_CODE_60952.getMsg());
         }
         //requestId
         String requestId = UUID.randomUUID().toString().replace("-","");
@@ -68,7 +68,6 @@ public class GenericServiceInterfaceImpl implements GenericService {
         }catch (Exception e){
             log.error("insert request info error: {}, {}", e.getMessage(), e);
         }
-
         return JSON.parseObject(mockInfoDao.getOneMockInfo(interfaceName,method,params).getResponse());
     }
 }

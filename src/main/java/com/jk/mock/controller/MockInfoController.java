@@ -1,21 +1,27 @@
 package com.jk.mock.controller;
 
 
+import com.alibaba.fastjson.JSONObject;
 import com.jk.mock.common.ResponseModel;
 import com.jk.mock.core.code.dubbo.MockService;
 import com.jk.mock.dao.MockInfoDao;
+import com.jk.mock.dao.RequestHistoryDao;
 import com.jk.mock.entity.MockInfo;
+import com.jk.mock.entity.RequestHistory;
 import com.jk.mock.exception.BaseException;
 import com.jk.mock.exception.ErrorCode;
+import com.jk.mock.req.InfoReq;
 import com.jk.mock.req.MockInfoReq;
 import com.jk.mock.req.UpdateReq;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created with IntelliJ IDEA.
@@ -31,6 +37,9 @@ import java.util.List;
 public class MockInfoController {
     @Resource
     private MockInfoDao mockInfoDao;
+
+    @Resource
+    private RequestHistoryDao requestHistoryDao;
 
     @Resource
     private MockService mockService;
@@ -140,8 +149,27 @@ public class MockInfoController {
             log.error("remove one mock info error: {}, {}", e.getMessage(), e);
             throw new BaseException(ErrorCode.ERROR_CODE_30228.getCode(), e.getMessage());
         }
-
     }
 
-
+    @PostMapping("/getLatestReqInfo")
+    public ResponseModel getLatestReqInfo(@RequestBody InfoReq req){
+        ResponseModel responseModel = new ResponseModel();
+        try {
+            String reqId = requestHistoryDao.getLatestOne(req.getDubboGroup()).getRequestId();
+            if (StringUtils.isNotBlank(reqId)){
+                List<RequestHistory> list = requestHistoryDao.getReqInfoByReqId(reqId);
+                List<JSONObject> results = list.stream().map(requestHistory -> {
+                    JSONObject data = new JSONObject();
+                    data.put("paramType",requestHistory.getParamType());
+                    data.put("paramValue",requestHistory.getParamValue());
+                    return data;
+                }).collect(Collectors.toList());
+                responseModel.setData(results);
+            }
+            return responseModel;
+        }catch (Exception e){
+            log.error("get Latest Req Info error: {}, {}", e.getMessage(), e);
+            throw new BaseException(ErrorCode.ERROR_CODE_30228.getCode(), e.getMessage());
+        }
+    }
 }

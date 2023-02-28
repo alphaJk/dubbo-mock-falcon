@@ -18,7 +18,9 @@ public enum ErrorCode {
     ERROR_CODE_30225("30225", "update db error"),
     ERROR_CODE_30226("30226", "save db error"),
     ERROR_CODE_30227("30227", "mock info is existed"),
-    ERROR_CODE_30228("30228", "remove mock info error")
+    ERROR_CODE_30228("30228", "remove mock info error"),
+    ERROR_CODE_60951("60951", "no provider\n"),
+    ERROR_CODE_60952("60951", "miss params\n")
     ;
 
 
