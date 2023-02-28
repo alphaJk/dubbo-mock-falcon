@@ -61,7 +61,6 @@ public class GenericServiceInterfaceImpl implements GenericService {
         String requestId = UUID.randomUUID().toString().replace("-","");
         //
         String groupName = Util.getUrlGroup();
-        // TODO: 2023/2/27 请求记录插入数据库
         try {
             for (int i = 0; i < parameterTypes.length; i++) {
                 requestHistoryDao.saveOneRequestInfo(requestId,parameterTypesList.get(i),req.get(i).toString(),groupName);
