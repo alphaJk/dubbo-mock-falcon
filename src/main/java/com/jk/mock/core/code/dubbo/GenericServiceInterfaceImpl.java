@@ -6,6 +6,9 @@ import com.jk.mock.core.code.Util;
 import com.jk.mock.core.code.dubbo.config.DubboMockProperties;
 import com.jk.mock.core.code.dubbo.config.MockInvocation;
 import com.jk.mock.dao.MockInfoDao;
+import com.jk.mock.dao.RequestHistoryDao;
+import com.jk.mock.exception.BaseException;
+import com.jk.mock.exception.ErrorCode;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.MapUtils;
@@ -14,9 +17,7 @@ import org.apache.dubbo.rpc.service.GenericService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 
 @Slf4j
@@ -25,6 +26,9 @@ public class GenericServiceInterfaceImpl implements GenericService {
 
     @Resource
     private MockInfoDao mockInfoDao;
+
+    @Resource
+    private RequestHistoryDao requestHistoryDao;
 
     @Resource
     private DubboMockProperties dubboMockProperties;
@@ -47,6 +51,25 @@ public class GenericServiceInterfaceImpl implements GenericService {
         if (Objects.isNull(mockInvocation)) {
             throw new ServiceException("{\"code\":60951,\"msg\":\"no provider\"}\n");
         }
+
+        log.info(params);
+        List<Object> req = new ArrayList<>(Arrays.asList(args));
+        if (parameterTypes.length != args.length){
+            throw new ServiceException("{\"code\":60952,\"msg\":\"miss params\"}\n");
+        }
+        //requestId
+        String requestId = UUID.randomUUID().toString().replace("-","");
+        //
+        String groupName = Util.getUrlGroup();
+        // TODO: 2023/2/27 请求记录插入数据库
+        try {
+            for (int i = 0; i < parameterTypes.length; i++) {
+                requestHistoryDao.saveOneRequestInfo(requestId,parameterTypesList.get(i),req.get(i).toString(),groupName);
+            }
+        }catch (Exception e){
+            log.error("insert request info error: {}, {}", e.getMessage(), e);
+        }
+
         return JSON.parseObject(mockInfoDao.getOneMockInfo(interfaceName,method,params).getResponse());
     }
 }

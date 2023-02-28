@@ -3,6 +3,8 @@ package com.jk.mock;
 import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.jk.mock.dao.RequestHistoryDao;
+import com.jk.mock.entity.RequestHistory;
 import com.jk.mock.mapper.MockInfoMapper;
 import com.jk.mock.entity.MockInfo;
 import com.jk.mock.service.IMockInfoService;
@@ -23,6 +25,9 @@ class DubboMockFalconApplicationTests {
 
 	@Autowired
 	private IMockInfoService iMockInfoService;
+
+	@Autowired
+	private RequestHistoryDao requestHistoryDao;
 
 	@Test
 	void contextLoads() {
@@ -53,6 +58,17 @@ class DubboMockFalconApplicationTests {
 		wrapper.eq("parameter_types", "com.vaasplus.region.model.region.req.SaasGetNowRegionReq");
 		MockInfo data = iMockInfoService.getOne(wrapper);
 		System.out.println(data.getResponse());
+	}
+
+	@Test
+	void test3(){
+		requestHistoryDao.saveOneRequestInfo("1111","String","StringValue","group");
+	}
+
+	@Test
+	void test4(){
+		RequestHistory requestHistory = requestHistoryDao.getLasetOne("core_data");
+		System.out.println(requestHistory.getRequestId());
 	}
 
 }

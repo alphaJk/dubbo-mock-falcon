@@ -23,6 +23,8 @@ public class MockServerFilter implements Filter {
         try {
             //线程存储interface信息
             Util.setUrlInterface(invoker.getUrl().getServiceInterface());
+            //线程存储group信息
+            Util.setUrlUrlGroup(invoker.getUrl().getGroup());
             Result result = invoker.invoke(invocation);
             return result;
         }finally {
