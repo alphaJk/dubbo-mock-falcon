@@ -1,6 +1,12 @@
-package com.jk.mock.core.code;
+package com.jk.mock.core.code.util;
 
+import com.alibaba.fastjson2.JSONObject;
+import com.jk.mock.entity.MockInfo;
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -40,5 +46,19 @@ public class Util {
     public static void clear(){
         currentUrlInterface.set(null);
         currentUrlGroup.set(null);
+    }
+
+    public static JSONObject canaryReqHandle(@NotNull MockInfo mockInfo){
+        JSONObject resp = JSONObject.parseObject(mockInfo.getResponse());
+        JSONObject entityModel = resp.getJSONObject("data");
+        Map<Integer,AttributeModel> attributeListMap = new HashMap<>();
+        for (Map.Entry<String, Object> entry : entityModel.getJSONObject("attributeList").entrySet()) {
+            Integer canaryKey  = Integer.valueOf(entry.getKey());
+            AttributeModel attributeModel = JSONObject.parseObject(entry.getValue().toString(),AttributeModel.class);
+            attributeListMap.put(canaryKey,attributeModel);
+        }
+        entityModel.put("attributeList",attributeListMap);
+        resp.put("data",entityModel);
+        return resp;
     }
 }

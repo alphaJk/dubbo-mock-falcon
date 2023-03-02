@@ -1,12 +1,14 @@
 package com.jk.mock.core.code.dubbo;
 
 import com.alibaba.fastjson2.JSON;
-import com.google.protobuf.ServiceException;
-import com.jk.mock.core.code.Util;
+import com.alibaba.fastjson2.JSONObject;
+import com.jk.mock.core.code.util.Util;
 import com.jk.mock.core.code.dubbo.config.DubboMockProperties;
 import com.jk.mock.core.code.dubbo.config.MockInvocation;
+import com.jk.mock.core.code.util.UtopiaResponse;
 import com.jk.mock.dao.MockInfoDao;
 import com.jk.mock.dao.RequestHistoryDao;
+import com.jk.mock.entity.MockInfo;
 import com.jk.mock.exception.BaseException;
 import com.jk.mock.exception.ErrorCode;
 import lombok.SneakyThrows;
@@ -14,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.dubbo.rpc.service.GenericException;
 import org.apache.dubbo.rpc.service.GenericService;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -59,15 +62,19 @@ public class GenericServiceInterfaceImpl implements GenericService {
         }
         //requestId
         String requestId = UUID.randomUUID().toString().replace("-","");
-        //
+
         String groupName = Util.getUrlGroup();
         try {
             for (int i = 0; i < parameterTypes.length; i++) {
-                requestHistoryDao.saveOneRequestInfo(requestId,parameterTypesList.get(i),req.get(i).toString(),groupName);
+                requestHistoryDao.saveOneRequestInfo(requestId,parameterTypesList.get(i), JSON.toJSONString(req.get(i)),groupName);
             }
         }catch (Exception e){
             log.error("insert request info error: {}, {}", e.getMessage(), e);
         }
-        return JSON.parseObject(mockInfoDao.getOneMockInfo(interfaceName,method,params).getResponse());
+        MockInfo mockInfo =  mockInfoDao.getOneMockInfo(interfaceName,method,params);
+       if (Objects.equals(method, "getEntity")){
+           return Util.canaryReqHandle(mockInfo);
+       }
+        return JSONObject.parseObject(mockInfo.getResponse(),UtopiaResponse.class);
     }
 }
