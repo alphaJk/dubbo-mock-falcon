@@ -13,26 +13,26 @@ import org.springframework.util.StringUtils;
 public enum ErrorCode {
 
     // 系统错误
-    SYSTEM_ERROR("30201", "system error"),
-    ERROR_CODE_30224("30224", "db error"),
-    ERROR_CODE_30225("30225", "update db error"),
-    ERROR_CODE_30226("30226", "save db error"),
-    ERROR_CODE_30227("30227", "mock info is existed"),
-    ERROR_CODE_30228("30228", "remove mock info error"),
-    ERROR_CODE_60951("60951", "no provider\n"),
-    ERROR_CODE_60952("60951", "miss params\n")
+    SYSTEM_ERROR(30201, "system error"),
+    ERROR_CODE_30224(30224, "db error"),
+    ERROR_CODE_30225(30225, "update db error"),
+    ERROR_CODE_30226(30226, "save db error"),
+    ERROR_CODE_30227(30227, "mock info is existed"),
+    ERROR_CODE_30228(30228, "remove mock info error"),
+    ERROR_CODE_60951(60951, "no provider\n"),
+    ERROR_CODE_60952(60951, "miss params\n")
     ;
 
 
-    private String code;
+    private Integer code;
     private String msg;
 
-    private ErrorCode(String code, String msg) {
+    private ErrorCode(Integer code, String msg) {
         this.code = code;
         this.msg = msg;
     }
 
-    public String getCode() {
+    public Integer getCode() {
         return code;
     }
 
@@ -40,7 +40,7 @@ public enum ErrorCode {
         return msg;
     }
 
-    public static ErrorCode getByCode(String code) {
+    public static ErrorCode getByCode(Integer code) {
         if (StringUtils.isEmpty(code)) {
             return null;
         }

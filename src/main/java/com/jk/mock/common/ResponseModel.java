@@ -21,7 +21,7 @@ import java.io.Serializable;
 public class ResponseModel implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private String code;
+    private Integer code;
 
     private String msg;
 
@@ -30,7 +30,7 @@ public class ResponseModel implements Serializable {
     private Object data;
 
     public ResponseModel() {
-        this.code = "200";
+        this.code = 200;
         this.msg = "success";
         this.data = new JSONObject();
     }

@@ -16,7 +16,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.dubbo.rpc.service.GenericException;
 import org.apache.dubbo.rpc.service.GenericService;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -72,6 +71,7 @@ public class GenericServiceInterfaceImpl implements GenericService {
             log.error("insert request info error: {}, {}", e.getMessage(), e);
         }
         MockInfo mockInfo =  mockInfoDao.getOneMockInfo(interfaceName,method,params);
+        //业务特殊处理
        if (Objects.equals(method, "getEntity")){
            return Util.canaryReqHandle(mockInfo);
        }

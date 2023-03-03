@@ -11,7 +11,7 @@ package com.jk.mock.exception;
 public class BaseException extends RuntimeException {
     private static final long serialVersionUID = 1L;
 
-    private String code;
+    private Integer code;
 
     private String msg;
 
@@ -31,14 +31,14 @@ public class BaseException extends RuntimeException {
         this.code = ErrorCode.SYSTEM_ERROR.getCode();
     }
 
-    public BaseException(String code, String msg) {
+    public BaseException(Integer code, String msg) {
         super(msg);
         this.code=code;
         this.msg = msg;
         this.desc = msg;
     }
 
-    public BaseException(String code, String msg, String desc) {
+    public BaseException(Integer code, String msg, String desc) {
         super(msg);
         this.code = code;
         this.msg = msg;
@@ -53,11 +53,11 @@ public class BaseException extends RuntimeException {
         super(ex);
     }
 
-    public String getCode() {
+    public Integer getCode() {
         return code;
     }
 
-    public void setCode(String code) {
+    public void setCode(Integer code) {
         this.code = code;
     }
 
