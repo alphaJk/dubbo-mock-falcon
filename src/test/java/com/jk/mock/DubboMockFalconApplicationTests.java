@@ -2,6 +2,7 @@ package com.jk.mock;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.jk.mock.dao.MockInfoDao;
 import com.jk.mock.dao.RequestHistoryDao;
 import com.jk.mock.entity.RequestHistory;
 import com.jk.mock.mapper.MockInfoMapper;
@@ -20,6 +21,9 @@ import java.util.stream.Collectors;
 @Slf4j
 @SpringBootTest
 class DubboMockFalconApplicationTests {
+
+	@Resource
+	private MockInfoDao mockInfoDao;
 
 	@Resource
 	private MockInfoMapper mockInfoMapper;
@@ -76,4 +80,5 @@ class DubboMockFalconApplicationTests {
 	void test5(){
 		List<RequestHistory> list = requestHistoryDao.getReqInfoByReqId("21ba8c20cb2541dca618ef6c294bed99");
 	}
+
 }

@@ -77,7 +77,6 @@ public class MockInfoDao {
         return mockInfoService.save(entity);
     }
 
-
     public boolean removeOneMock(String interfaceName,String functionName,String parameterTypes){
         QueryWrapper<MockInfo> wrapper = new QueryWrapper<>();
         wrapper.eq("interface_name", interfaceName);

@@ -44,6 +44,13 @@ public class MockInfoController {
     @Resource
     private MockService mockService;
 
+    @RequestMapping(value = "/reload",method = RequestMethod.GET)
+    public ResponseModel reloadMockInfo(){
+        ResponseModel responseModel = new ResponseModel();
+        mockService.reload();
+        return responseModel;
+    }
+
     @RequestMapping(value ="/getAll",method = RequestMethod.GET)
     public ResponseModel getAllMockInfo(){
         ResponseModel responseModel = new ResponseModel();
@@ -57,12 +64,19 @@ public class MockInfoController {
         }
     }
 
-    @RequestMapping(value = "/reload",method = RequestMethod.GET)
-    public ResponseModel reloadMockInfo(){
+
+    @PostMapping("/getOne")
+    public ResponseModel getOneMockInfo(@RequestBody UpdateReq req){
         ResponseModel responseModel = new ResponseModel();
-        mockService.reload();
+        MockInfo mockInfo = mockInfoDao.getOneMockInfo(req.getInterfaceName(),req.getFunctionName(),req.getParameterTypes());
+        if (ObjectUtils.isEmpty(mockInfo)){
+            responseModel.setCode(ErrorCode.ERROR_CODE_30229.getCode());
+            responseModel.setMsg(ErrorCode.ERROR_CODE_30229.getMsg());
+        }
+        responseModel.setData(mockInfo);
         return responseModel;
     }
+
 
     @PostMapping("/updateResponse")
     public ResponseModel updateResponse(@RequestBody UpdateReq req){
@@ -135,6 +149,8 @@ public class MockInfoController {
 
         }
     }
+
+
 
     @PostMapping("/removeOne")
     public ResponseModel saveOrUpdateMockInfo(@RequestBody MockInfoReq req){
