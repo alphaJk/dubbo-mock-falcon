@@ -1,2 +1,3 @@
 # dubbo-mock-falcon
-用于微服务测试，mock依赖的dubbo接口。
+该项目用于dubbo接口的mock。
+- 基于springboot、dubbo3、mybatis-plus
