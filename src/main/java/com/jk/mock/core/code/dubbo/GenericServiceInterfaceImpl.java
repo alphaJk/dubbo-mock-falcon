@@ -5,7 +5,6 @@ import com.alibaba.fastjson2.JSONObject;
 import com.jk.mock.core.code.util.Util;
 import com.jk.mock.core.code.dubbo.config.DubboMockProperties;
 import com.jk.mock.core.code.dubbo.config.MockInvocation;
-import com.jk.mock.core.code.util.UtopiaResponse;
 import com.jk.mock.dao.MockInfoDao;
 import com.jk.mock.dao.RequestHistoryDao;
 import com.jk.mock.entity.MockInfo;
