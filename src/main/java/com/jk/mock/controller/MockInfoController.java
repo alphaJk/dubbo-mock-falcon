@@ -3,16 +3,16 @@ package com.jk.mock.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jk.mock.common.ResponseModel;
-import com.jk.mock.core.code.dubbo.MockService;
+import com.jk.mock.core.dubbo.MockService;
 import com.jk.mock.dao.MockInfoDao;
 import com.jk.mock.dao.RequestHistoryDao;
 import com.jk.mock.entity.MockInfo;
 import com.jk.mock.entity.RequestHistory;
-import com.jk.mock.exception.BaseException;
-import com.jk.mock.exception.ErrorCode;
-import com.jk.mock.req.InfoReq;
-import com.jk.mock.req.MockInfoReq;
-import com.jk.mock.req.UpdateReq;
+import com.jk.mock.common.exception.BaseException;
+import com.jk.mock.common.exception.ErrorCode;
+import com.jk.mock.common.req.InfoReq;
+import com.jk.mock.common.req.MockInfoReq;
+import com.jk.mock.common.req.UpdateReq;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.lang3.ObjectUtils;

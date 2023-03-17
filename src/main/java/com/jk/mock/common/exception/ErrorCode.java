@@ -1,4 +1,4 @@
-package com.jk.mock.exception;
+package com.jk.mock.common.exception;
 
 import org.springframework.util.StringUtils;
 

@@ -1,4 +1,4 @@
-package com.jk.mock.core.code.dubbo.config;
+package com.jk.mock.core.dubbo.config;
 
 
 import com.jk.mock.dao.MockInfoDao;

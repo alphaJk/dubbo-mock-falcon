@@ -1,4 +1,4 @@
-package com.jk.mock.req;
+package com.jk.mock.common.req;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

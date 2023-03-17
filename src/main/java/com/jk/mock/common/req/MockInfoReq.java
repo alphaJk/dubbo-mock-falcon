@@ -1,6 +1,5 @@
-package com.jk.mock.req;
+package com.jk.mock.common.req;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

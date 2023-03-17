@@ -1,4 +1,4 @@
-package com.jk.mock.core.code.util;
+package com.jk.mock.core.util;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.jk.mock.entity.MockInfo;

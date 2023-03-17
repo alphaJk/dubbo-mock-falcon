@@ -1,4 +1,4 @@
-package com.jk.mock.core.code.dubbo;
+package com.jk.mock.core.dubbo;
 
 
 public interface MockService {

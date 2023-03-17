@@ -1,6 +1,6 @@
 package com.jk.mock.config.filter.dubbo;
 
-import com.jk.mock.core.code.util.Util;
+import com.jk.mock.core.util.Util;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.common.extension.Activate;
 import org.apache.dubbo.rpc.*;
