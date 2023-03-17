@@ -68,13 +68,19 @@ public class MockInfoController {
     @PostMapping("/getOne")
     public ResponseModel getOneMockInfo(@RequestBody UpdateReq req){
         ResponseModel responseModel = new ResponseModel();
-        MockInfo mockInfo = mockInfoDao.getOneMockInfo(req.getInterfaceName(),req.getFunctionName(),req.getParameterTypes());
-        if (ObjectUtils.isEmpty(mockInfo)){
-            responseModel.setCode(ErrorCode.ERROR_CODE_30229.getCode());
-            responseModel.setMsg(ErrorCode.ERROR_CODE_30229.getMsg());
+        try {
+            MockInfo mockInfo = mockInfoDao.getOneMockInfo(req.getInterfaceName(),req.getFunctionName(),req.getParameterTypes());
+            if (ObjectUtils.isEmpty(mockInfo)){
+                responseModel.setCode(ErrorCode.ERROR_CODE_30229.getCode());
+                responseModel.setMsg(ErrorCode.ERROR_CODE_30229.getMsg());
+            }
+            responseModel.setData(mockInfo);
+            return responseModel;
+        }catch (Exception e){
+            log.error("select  mock info error: {}, {}", e.getMessage(), e);
+            throw new BaseException(ErrorCode.ERROR_CODE_30223.getCode(), e.getMessage());
         }
-        responseModel.setData(mockInfo);
-        return responseModel;
+
     }
 
 

@@ -14,6 +14,7 @@ public enum ErrorCode {
 
     // 系统错误
     SYSTEM_ERROR(30201, "system error"),
+    ERROR_CODE_30223(30223, "select db error"),
     ERROR_CODE_30224(30224, "db error"),
     ERROR_CODE_30225(30225, "update db error"),
     ERROR_CODE_30226(30226, "save db error"),
