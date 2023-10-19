@@ -74,6 +74,6 @@ public class GenericServiceInterfaceImpl implements GenericService {
        if (Objects.equals(method, "getEntity")){
            return Util.canaryReqHandle(mockInfo);
        }
-        return JSONObject.parseObject(mockInfo.getResponse());
+        return JSONObject.parseObject(mockInfo.getResponse(),Map.class);
     }
 }

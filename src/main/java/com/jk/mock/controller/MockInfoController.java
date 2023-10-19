@@ -194,4 +194,6 @@ public class MockInfoController {
             throw new BaseException(ErrorCode.ERROR_CODE_30228.getCode(), e.getMessage());
         }
     }
+
+
 }

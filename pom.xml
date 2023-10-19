@@ -31,6 +31,16 @@
 			</exclusions>
 		</dependency>
 		<dependency>
+			<groupId>org.apache.dubbo.extensions</groupId>
+			<artifactId>dubbo-serialization-fastjson</artifactId>
+			<version>1.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>1.2.83</version>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-undertow</artifactId>
 		</dependency>

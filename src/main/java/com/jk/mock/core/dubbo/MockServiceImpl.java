@@ -61,7 +61,10 @@ public class MockServiceImpl implements MockService {
         ProtocolConfig protocol = new ProtocolConfig();
         protocol.setName(dubboConfigurationProperties.getProtocol().getName());
         protocol.setPort(dubboConfigurationProperties.getProtocol().getPort());
+        protocol.setName("dubbo");
 //        protocol.setSerialization("fastjson");
+//        protocol.setPreferSerialization("fastjson,fastjson2,hessian2");
+        protocol.setSerialization("hessian2");
         protocol.setThreads(200);
         for (Map.Entry<String, MockInvocation> entry : dubboMockProperties.getInvocations().entrySet()) {
             exportInterfaceSingle(applicationConfig, protocol, entry.getKey(), entry.getValue());
@@ -83,7 +86,6 @@ public class MockServiceImpl implements MockService {
         service.setVersion(mockInvocation.getVersion());
         service.setGroup(mockInvocation.getGroup());
         service.setProvider(dubboConfigurationProperties.getProvider());
-
         MethodConfig methodConfig = new MethodConfig();
 //        methodConfig.setName(methodName);
         service.setMethods(Collections.singletonList(methodConfig));

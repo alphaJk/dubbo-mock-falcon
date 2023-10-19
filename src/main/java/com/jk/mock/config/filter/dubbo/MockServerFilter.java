@@ -2,11 +2,9 @@ package com.jk.mock.config.filter.dubbo;
 
 import com.jk.mock.core.util.Util;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.common.extension.Activate;
 import org.apache.dubbo.rpc.*;
-
-
-import static org.apache.dubbo.common.constants.CommonConstants.PROVIDER;
 
 /**
  * Created with IntelliJ IDEA.
@@ -17,7 +15,7 @@ import static org.apache.dubbo.common.constants.CommonConstants.PROVIDER;
  * Description:
  */
 @Slf4j
-@Activate(order = 10000, group = PROVIDER)
+@Activate(order = 10000, group = CommonConstants.PROVIDER)
 public class MockServerFilter implements Filter {
 
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {

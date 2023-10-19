@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="30 seconds">
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+    <property name="LOG_FILE" value="/opt/logs/dubboMock"/>
+
+    <property name="MAX_FILESIZE" value="20"/>
+    <property name="MAX_HISTORY_DAY" value="7"/>
+
+
+
+    <include resource="com/utopia/log/logback/defaults.xml"/>
+    <property name="U_LOG_JSONData_PATTERN" value='{"app":"${app.region}/${app.name}","FormatTime":"$[FormatTime]","Level":"$[Level]","Tid":"$[Tid]","Tname":"$[Tname]","TraceId":"$[TraceId]","TraceSeq":"$[TraceSeq]","viMsg":"$[JSONData]"}'/>
+
+    <property name="CONSOLE_LOG_PATTERN"
+              value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{35} - [%X{X-B3-TraceId}] - %msg%n"/>
+
+    <appender name="CONSOLE-APPENDER" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+
+    <!-- appender -->
+    <appender name="DEFAULT-APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_FILE}/info.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_FILE}/info.log.%d{yyyy-MM-dd}.%i.gz</fileNamePattern>
+            <maxHistory>${MAX_HISTORY_DAY}</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>${MAX_FILESIZE}mb</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder charset="UTF-8">
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <!--<onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>-->
+        </filter>
+    </appender>
+
+
+    <!-- appender -->
+    <appender name="ERROR-APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_FILE}/error.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_FILE}/error.log.%d{yyyy-MM-dd}.%i.gz</fileNamePattern>
+            <maxHistory>${MAX_HISTORY_DAY}</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>${MAX_FILESIZE}mb</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder charset="UTF-8">
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter"><!-- 只打印错误日志 -->
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <logger name="com.jk.mock" level="INFO">
+        <appender-ref ref="DEFAULT-APPENDER"/>
+    </logger>
+
+    <root level="ERROR">
+        <appender-ref ref="ERROR-APPENDER"/>
+    </root>
+</configuration>
